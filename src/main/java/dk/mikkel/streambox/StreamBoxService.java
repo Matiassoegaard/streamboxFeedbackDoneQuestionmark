@@ -106,18 +106,18 @@ public class StreamBoxService {
 
     public Optional<Content> mostViewedInGenre(Genre genre) {
         // bevidst: ingen resultater
-        if(genre == null){
-            return Optional.empty();
-        }
         List<Content> result = new ArrayList<>();
         for (Content content : catalog) {
             if (content.getGenre() == genre) {
                 result.add(content);
             }
         }
+        if(result.isEmpty()){
+            return Optional.empty();
+        }
         result.sort(Comparator.comparingInt(Content::getViews).reversed()
                 .thenComparing(Content::getTitle));
-        return Optional.of(result.get(0));
+        return Optional.of(result.getFirst());
     }
 
     public boolean removeById(int id) {
